@@ -1,103 +1,155 @@
-import Image from "next/image";
+'use client';
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [mealPrice, setMealPrice] = useState('');
+  const [tipPercentage, setTipPercentage] = useState(20);
+  const [customTipPercentage, setCustomTipPercentage] = useState('');
+  const [tip, setTip] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const calculateTip = (e: React.FormEvent) => {
+    e.preventDefault();
+    const price = parseFloat(mealPrice);
+    if (!isNaN(price)) {
+      setTip(price * (tipPercentage / 100));
+      setShowResult(true);
+    }
+  };
+
+  const handleTipButtonClick = (percentage: number) => {
+    setTipPercentage(percentage);
+    setCustomTipPercentage('');
+    setShowResult(false);
+  };
+
+  const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === '') {
+      setCustomTipPercentage('');
+      return;
+    }
+    
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+      setCustomTipPercentage(value);
+      setTipPercentage(numValue);
+      setShowResult(false);
+    }
+  };
+
+  const handleMealPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMealPrice(e.target.value);
+    setShowResult(false);
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+        <h1 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+          Tip Calculator
+        </h1>
+        
+        <form onSubmit={calculateTip} className="space-y-6">
+          <div>
+            <label htmlFor="mealPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Meal Price (before tax)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <input
+                type="number"
+                id="mealPrice"
+                value={mealPrice}
+                onChange={handleMealPriceChange}
+                className="w-full pl-8 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Tip Percentage
+            </label>
+            <div className="grid grid-cols-3 gap-2 mb-2">
+              <button
+                type="button"
+                onClick={() => handleTipButtonClick(15)}
+                className={`py-2 px-4 rounded-lg transition-colors ${
+                  tipPercentage === 15
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                15%
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTipButtonClick(18)}
+                className={`py-2 px-4 rounded-lg transition-colors ${
+                  tipPercentage === 18
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                18%
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTipButtonClick(20)}
+                className={`py-2 px-4 rounded-lg transition-colors ${
+                  tipPercentage === 20
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                20%
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type="number"
+                value={customTipPercentage}
+                onChange={handleCustomTipChange}
+                className="w-full pl-4 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Custom %"
+                step="0.1"
+                min="0"
+                max="100"
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            Calculate Tip
+          </button>
+        </form>
+
+        {showResult && tip !== null && (
+          <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Result</h2>
+            <div className="space-y-2">
+              <p className="text-gray-600 dark:text-gray-300">
+                Meal Price: ${parseFloat(mealPrice).toFixed(2)}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Tip ({tipPercentage}%): ${tip.toFixed(2)}
+              </p>
+              <p className="text-lg font-bold text-gray-900 dark:text-white">
+                Total: ${(parseFloat(mealPrice) + tip).toFixed(2)}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
