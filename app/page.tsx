@@ -18,6 +18,13 @@ export default function Home() {
     }
   };
 
+  const handleRound = (direction: 'up' | 'down') => {
+    if (tip !== null) {
+      const roundedTip = direction === 'up' ? Math.ceil(tip) : Math.floor(tip);
+      setTip(roundedTip);
+    }
+  };
+
   const handleTipButtonClick = (percentage: number) => {
     setTipPercentage(percentage);
     setCustomTipPercentage('');
@@ -164,6 +171,22 @@ export default function Home() {
               <p className="text-lg font-bold text-gray-900 dark:text-white">
                 Total: ${(parseFloat(mealPrice) + tip).toFixed(2)}
               </p>
+              <div className="flex gap-2 mt-4">
+                <button
+                  type="button"
+                  onClick={() => handleRound('down')}
+                  className="flex-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                >
+                  Round Down
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRound('up')}
+                  className="flex-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                >
+                  Round Up
+                </button>
+              </div>
             </div>
           </div>
         )}
