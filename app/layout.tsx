@@ -21,6 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tips-calculator.vercel.app'),
   title: "Tip Calculator | Easy and Fast Tip Calculation",
   description: "Calculate tips instantly with our free online tip calculator. Simple, fast, and accurate tip calculations for restaurants, services, and more.",
   keywords: "tip calculator, restaurant tip, service tip, gratuity calculator, tip percentage, bill splitter",
