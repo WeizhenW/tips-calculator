@@ -5,8 +5,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: 'https://tips-calculator.vercel.app',
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'daily',
       priority: 1,
     },
+    {
+      url: 'https://tips-calculator.vercel.app/stats',
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    }
   ]
 } 
