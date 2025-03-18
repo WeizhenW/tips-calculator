@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   const [mealPrice, setMealPrice] = useState('');
@@ -150,6 +151,11 @@ export default function Home() {
           </div>
         )}
       </div>
+      <footer className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+        <Link href="/stats" className="hover:text-gray-700 dark:hover:text-gray-300">
+          View Statistics
+        </Link>
+      </footer>
     </div>
   );
 }
