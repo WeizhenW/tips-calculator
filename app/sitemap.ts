@@ -1,14 +1,17 @@
 import { MetadataRoute } from 'next'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://easy-tip-calculator.vercel.app'
+  const currentDate = new Date().toISOString()
+
   return [
     {
-      url: 'https://tips-calculator.vercel.app',
-      lastModified: new Date(),
+      url: baseUrl,
+      lastModified: currentDate,
     },
     {
-      url: 'https://tips-calculator.vercel.app/stats',
-      lastModified: new Date(),
+      url: `${baseUrl}/stats`,
+      lastModified: currentDate,
     }
   ]
 } 

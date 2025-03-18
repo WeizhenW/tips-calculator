@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tips-calculator.vercel.app'),
+  metadataBase: new URL('https://easy-tip-calculator.vercel.app'),
   title: "Tip Calculator | Easy and Fast Tip Calculation",
   description: "Calculate tips instantly with our free online tip calculator. Simple, fast, and accurate tip calculations for restaurants, services, and more.",
   keywords: "tip calculator, restaurant tip, service tip, gratuity calculator, tip percentage, bill splitter",
@@ -31,10 +31,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Tip Calculator",
-    url: "https://tips-calculator.vercel.app",
+    url: "https://easy-tip-calculator.vercel.app",
     images: [
       {
-        url: "https://tips-calculator.vercel.app/og-image.png",
+        url: "https://easy-tip-calculator.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Tip Calculator Preview",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tip Calculator | Easy and Fast Tip Calculation",
     description: "Calculate tips instantly with our free online tip calculator. Simple, fast, and accurate tip calculations for restaurants, services, and more.",
-    images: ["https://tips-calculator.vercel.app/og-image.png"],
+    images: ["https://easy-tip-calculator.vercel.app/og-image.png"],
   },
   robots: {
     index: true,
@@ -80,7 +80,7 @@ export default function RootLayout({
               '@type': 'WebApplication',
               name: 'Tip Calculator',
               description: 'Calculate tips instantly with our free online tip calculator. Simple, fast, and accurate tip calculations for restaurants, services, and more.',
-              url: 'https://tips-calculator.vercel.app',
+              url: 'https://easy-tip-calculator.vercel.app',
               applicationCategory: 'UtilityApplication',
               operatingSystem: 'All',
               offers: {

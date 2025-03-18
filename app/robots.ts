@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://tips-calculator.vercel.app/sitemap.xml',
+    sitemap: 'https://easy-tip-calculator.vercel.app/sitemap.xml',
   }
 } 
