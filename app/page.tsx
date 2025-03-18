@@ -44,13 +44,21 @@ export default function Home() {
     setShowResult(false);
   };
 
+  const handleClear = () => {
+    setMealPrice('');
+    setTipPercentage(20);
+    setCustomTipPercentage('');
+    setTip(null);
+    setShowResult(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
           Tip Calculator
         </h1>
-        
+
         <form onSubmit={calculateTip} className="space-y-6">
           <div>
             <label htmlFor="mealPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -126,12 +134,21 @@ export default function Home() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Calculate Tip
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="submit"
+              className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            >
+              Calculate Tip
+            </button>
+            <button
+              type="button"
+              onClick={handleClear}
+              className="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            >
+              Clear
+            </button>
+          </div>
         </form>
 
         {showResult && tip !== null && (
@@ -151,6 +168,7 @@ export default function Home() {
           </div>
         )}
       </div>
+
       <footer className="mt-8 text-sm text-gray-500 dark:text-gray-400">
         <Link href="/stats" className="hover:text-gray-700 dark:hover:text-gray-300">
           View Statistics
