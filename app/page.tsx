@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -8,6 +8,7 @@ export default function Home() {
   const [customTipPercentage, setCustomTipPercentage] = useState('');
   const [tip, setTip] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const calculateTip = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,9 +60,41 @@ export default function Home() {
     setShowResult(false);
   };
 
+  const handleShare = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('mealPrice', mealPrice);
+    url.searchParams.set('tipPercentage', tipPercentage.toString());
+    url.searchParams.set('tip', tip !== null ? tip.toFixed(2) : '');
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 2000);
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mealPriceParam = params.get('mealPrice');
+    const tipPercentageParam = params.get('tipPercentage');
+    const tipParam = params.get('tip');
+
+    if (mealPriceParam && tipPercentageParam && tipParam) {
+      setMealPrice(mealPriceParam);
+      setTipPercentage(parseFloat(tipPercentageParam));
+      setTip(parseFloat(tipParam));
+      setShowResult(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 relative">
+        {showTooltip && (
+          <div className="absolute bottom-16 right-0 mb-2 mr-2 bg-gray-700 text-white text-xs rounded py-1 px-2">
+            Link copied!
+          </div>
+        )}
         <h1 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
           Tip Calculator
         </h1>
@@ -197,6 +230,16 @@ export default function Home() {
                     <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
                   </svg>
                   <span>Round Up</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 transition-all"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M15 8a3 3 0 00-2.83 2H7.83a3 3 0 100 2h4.34a3 3 0 102.83-2H7.83a3 3 0 100-2h4.34A3 3 0 1015 8zM5 10a1 1 0 110-2 1 1 0 010 2zm10 4a1 1 0 110-2 1 1 0 010 2zm0-8a1 1 0 110-2 1 1 0 010 2z" clipRule="evenodd" />
+                  </svg>
+                  <span>Share</span>
                 </button>
               </div>
             </div>
