@@ -16,7 +16,15 @@ export default function Home() {
     e.preventDefault();
     const price = parseFloat(mealPrice);
     if (!isNaN(price)) {
-      setTip(price * (tipPercentage / 100));
+      const calculatedTip = price * (tipPercentage / 100);
+      setTip(calculatedTip);
+      if (numParties !== '') {
+        const parties = parseInt(numParties);
+        if (parties > 0) {
+          const total = price + calculatedTip;
+          setSplitAmount(total / parties);
+        }
+      }
       setShowResult(true);
     }
   };
